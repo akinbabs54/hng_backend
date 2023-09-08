@@ -23,7 +23,7 @@ def get_info():
         is_valid_utc = False
 
     # Get GitHub URLs
-    github_file_url = "https://github.com/username/repo/blob/main/file_name.ext"
+    github_file_url = "https://github.com/akinbabs54/hng_backend/blob/main/app.py"
     github_repo_url = "https://github.com/akinbabs54/hng_backend"
 
     response = {
