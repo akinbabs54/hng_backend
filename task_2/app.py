@@ -17,6 +17,10 @@ class Person(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), nullable=False, unique=True)
 
+# Helper function to validate input
+def validate_input(data):
+    return 'name' in data and isinstance(data['name'], str)
+
 # Create a new person
 @app.route('/api', methods=['POST'])
 def add_person():
