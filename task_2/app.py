@@ -16,23 +16,33 @@ class Person(db.Model):
 def add_person():
     data = request.get_json()
     name = data.get('name')
-    
+
     if not name:
         return jsonify({'message': 'Name is required'}), 400
-    
+    if isinstance(name,str) == False:
+        error_response = {'status': 'error', "message": 'Name must be string'}
+        return jsonify(error_response), 400
+    existing_person = Person.query.filter_by(name=name).first()
+    if existing_person is not None:
+        error_response = {'status': 'error', 'message': 'Name already exists'}
+        return jsonify(error_response), 400
     new_person = Person(name=name)
     db.session.add(new_person)
     db.session.commit()
+    save_person = {'id': new_person.id, "name":new_person.name}
     response = {"status": "success",
                 'message': 'Person added successfully',
-                'data': new_person }
+                'data': save_person }
     return jsonify(response), 201
 
 # Get a person by ID
 @app.route('/api/<int:user_id>', methods=['GET'])
 def get_person(user_id):
     person = Person.query.get_or_404(user_id)
-    return jsonify({'name': person.name}), 200
+    existing_person = {'id': person.id, "name":person.name}
+    response = {"status": "success",
+                'data': existing_person }
+    return jsonify(response), 200
 
 # Update a person by ID
 @app.route('/api/<int:user_id>', methods=['PUT'])
@@ -47,7 +57,11 @@ def update_person(user_id):
     person.name = name
     db.session.commit()
     
-    return jsonify({'message': 'Person updated successfully'}), 200
+    updated_person = {'id': person.id, "name":person.name}
+    response = {"status": "success",
+                'message': 'Name updated successfully',
+                'data': updated_person }
+    return jsonify(response), 200
 
 # Delete a person by ID
 @app.route('/api/<int:user_id>', methods=['DELETE'])
@@ -56,7 +70,10 @@ def delete_person(user_id):
     db.session.delete(person)
     db.session.commit()
     
-    return jsonify({'message': 'Person deleted successfully'}), 200
+    response = {"status": "success",
+                'message': 'Person deleted successfully'
+                 }
+    return jsonify(response), 200
 
 # Get a person by name
 @app.route('/api/name/<name>', methods=['GET'])
@@ -66,6 +83,14 @@ def get_person_by_name(name):
         return jsonify({'message': 'Person not found'}), 404
     return jsonify({'name': person.name}), 200
 
+@app.route('/api/clear_data', methods=['DELETE'])
+def clear_data():
+    Person.query.delete()
+    db.session.commit()
+    
+    return jsonify({'message': 'All data cleared successfully'}), 200
+
 if __name__ == '__main__':
-    db.create_all()
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
