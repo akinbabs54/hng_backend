@@ -3,11 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# Configure the SQLAlchemy database connection
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///api.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Turn off tracking modifications
 db = SQLAlchemy(app)
-with app.app_context():
-    db.create_all()
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+#db = SQLAlchemy(app)
+#with app.app_context():
+#    db.create_all()
 
 class Person(db.Model):
     id = db.Column(db.Integer, primary_key=True)
