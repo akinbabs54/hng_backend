@@ -23,8 +23,10 @@ def add_person():
     new_person = Person(name=name)
     db.session.add(new_person)
     db.session.commit()
-    
-    return jsonify({'message': 'Person added successfully'}), 201
+    response = {"status": "success",
+                'message': 'Person added successfully',
+                'data': new_person }
+    return jsonify(response), 201
 
 # Get a person by ID
 @app.route('/api/<int:user_id>', methods=['GET'])
