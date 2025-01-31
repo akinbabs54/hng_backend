@@ -10,8 +10,10 @@ How to Set-up
 2. Navigate to the project diretory 
 3. setup a virtual environment (venv)
 4. Use pip to install:  "pip install -r requirements.txt"
+   
 ✅ FastAPI → Web framework
 ✅ Uvicorn → ASGI server to run the API
 ✅ pytz → Timezone support
+
 5.start the server with  "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
 6. Stop server with cltr+c
