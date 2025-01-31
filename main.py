@@ -1,6 +1,7 @@
 from fastapi import FastAPI  # Import framwork itself
 from datetime import datetime  # import the date and time module
 import pytz  # this module handles the time zoning
+from dotenv import load_dotenv
 
 app = FastAPI(
     title="My API",
