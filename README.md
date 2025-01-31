@@ -17,3 +17,5 @@ How to Set-up
 
 5.start the server with  "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
 6. Stop server with cltr+c
+[Further info](https://hng.tech/hire/python-developers)
+
