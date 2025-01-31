@@ -13,7 +13,8 @@ load_dotenv(dotenv_path='./.env')
 app = FastAPI(
     title="My API",
     description="This is a sample FastAPI application.",
-    version="1.0.0"
+    version="1.0.0",
+    default_response_class=JSONResponse
 )  # Create an instance of FastAPI
 
 # ✅ Add CORS Middleware
