@@ -28,7 +28,7 @@ app.add_middleware(
 def get_info():
     return {
         "email": os.getenv("EMAIL"),  
-        "current_time": datetime.now(pytz.utc).isoformat(),  # Get current UTC time using pytz
-        "github_repo": os.getenv("GITHUB_REPO")  
+        "current_datetime": datetime.now(pytz.utc).isoformat(),  # Get current UTC time using pytz
+        "github_url": os.getenv("GITHUB_REPO")  
     }
     return JSONResponse(content=data)
