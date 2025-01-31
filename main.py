@@ -23,7 +23,6 @@ app.add_middleware(
     allow_methods=["GET"],  # Allowed HTTP methods
     allow_headers=["*"],  # Allow all headers
 )
-
 @app.get("/myinfo")  # is a decorator that registers a GET request route. executes the function on link.  Define a GET endpoint at "/myinfo on the app"
 def get_info():
     return {
