@@ -31,4 +31,4 @@ def get_info():
         "current_time": datetime.now(pytz.utc).isoformat(),  # Get current UTC time using pytz
         "github_repo": os.getenv("GITHUB_REPO")  
     }
-
+    return JSONResponse(content=data)
