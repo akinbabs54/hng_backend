@@ -1,14 +1,13 @@
-from fastapi import FastAPI  # Import framwork itself
+from fastapi import FastAPI  # Import framework itself
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime  # import the date and time module
-import pytz  # this module handles the time zoning
+from datetime import datetime  # Import the date and time module
+import pytz  # This module handles time zones
 from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
-load_dotenv(dotenv_path='./.env')
-
+load_dotenv(dotenv_path="./.env")
 
 app = FastAPI(
     title="My API",
@@ -24,11 +23,21 @@ app.add_middleware(
     allow_methods=["GET"],  # Allowed HTTP methods
     allow_headers=["*"],  # Allow all headers
 )
-@app.get("/myinfo")  # is a decorator that registers a GET request route. executes the function on link.  Define a GET endpoint at "/myinfo on the app"
+
+@app.get("/myinfo")  # Define a GET endpoint at "/myinfo"
 def get_info():
-    return {
-        "email": os.getenv("EMAIL"),  
-        "current_datetime": datetime.now(pytz.utc).isoformat(),  # Get current UTC time using pytz
-        "github_url": os.getenv("GITHUB_REPO")  
+    # Get current UTC time using pytz
+    current_time = datetime.now(pytz.utc).isoformat()
+
+    # Ensure 'Z' instead of '+00:00'
+    if current_time.endswith("+00:00"):
+        current_time = current_time[:-6] + "Z"
+
+    # Construct JSON response
+    data = {
+        "email": os.getenv("EMAIL"),
+        "current_datetime": current_time,  # The dynamically generated UTC time with 'Z'
+        "github_url": os.getenv("GITHUB_REPO")
     }
-    return JSONResponse(content=data)
+
+    return JSONResponse(content=data)  # Explicitly return JSONResponse
